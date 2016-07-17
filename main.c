@@ -36,8 +36,8 @@ void summary(const char *command) {
     printf("\n");
     printf("Usage: %s [-d data rate][-o oversampling][-i interval][-l name] <device> <address>\n", command);
     printf("\n");
-    printf("  device - path of I2C device (like /dev/i2c-1)\n");
-    printf("  device - address of sensor in device in HEX (like 0x52)\n");
+    printf("  device  - path of I2C device (like /dev/i2c-1)\n");
+    printf("  address - address of sensor in device in HEX (like 0x52)\n");
     printf("\n");
     printf("  -d number   - positive or zero value of data rate in range [0;8)\n");
     printf("  -o number   - positive or zero value of oversampling ratio in range [0;4)\n");

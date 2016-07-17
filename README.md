@@ -51,3 +51,32 @@ After build you can use one of following method:
 ### Linking
 
 You may use static or shared library.
+
+## CLI usage
+
+`mag3110 [-d data rate][-o oversampling][-i interval][-l name] <device> <address>`
+
+Where:
+
+* `device` (text, **required**) - path of I2C device (like /dev/i2c-1)
+* `address` (text, **required**) - address of sensor in device in HEX (like 0x52)
+* `-d` (type: number, *optional*)  - positive or zero value of data rate in range [0;8)
+* `-o` (type: number, *optional*)  - positive or zero value of oversampling ratio in range [0;4)
+* `-i` (type: number, *optional*)   - positive or zero value of scanning interval in milliseconds
+* `-l` (type: text, *optional*)     - use output format as InfluxDB line format with this name as measurment
+
+### Default output
+
+Format: `<name>SPACE<value>SPACE<time in nanoseconds>SPACE<unit>`
+
+    temp 22 287361999999000 c
+    magnetism-x 10001 287361999999000 c
+    magnetism-y 8733 287371999999000 c
+    magnetism-z -9877 287381999999000 c
+
+
+### InfluxDB output
+
+Activates by flag `-l <name>`
+
+    <name> temp=22,magnetism-x=10001,magnetism-y=8733,magnetism-z=-9877 287381999999000
