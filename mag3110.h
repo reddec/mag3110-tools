@@ -75,5 +75,12 @@ bool mag3110_status_ready(uint8_t status);
  */
 bool mag3110_magnitude(int fd, int16_t *x, int16_t *y, int16_t *z);
 
+/**
+ * Helper function to open MAG3110 sensor over I2C protocol
+ * @param device name of I2C bus (ex: /dev/i2c-1)
+ * @param address address in I2C of sensor (ex: 0x5C)
+ * @return file descriptor pointed to sensor or -1
+ */
+int mag3110_open_device(const char *device, uint8_t address);
 
 #endif //MAG3110_MAG3110_H

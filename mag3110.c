@@ -23,6 +23,9 @@
 
 #include "mag3110.h"
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/i2c-dev.h>
 
 typedef enum {
     MAG3110_ADDR_DR_STATUS = 0x00, // Data ready status per axis
@@ -109,4 +112,16 @@ bool mag3110_configure(int fd, uint8_t data_rate, uint8_t over_sampling_ratio) {
     uint8_t payload[2] = {MAG3110_ADDR_CTRL_REG1, mode};
     return write(fd, payload, sizeof(payload)) == ((ssize_t)
             sizeof(payload));
+}
+
+int mag3110_open_device(const char *device, uint8_t address) {
+    int bus_fd = open(device, O_RDWR);
+    if (bus_fd < 0) {
+        return -1;
+    }
+    if (ioctl(bus_fd, I2C_SLAVE, address) < 0) {
+        close(bus_fd);
+        return -1;
+    }
+    return bus_fd;
 }
