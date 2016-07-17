@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 2.8)
+project(mag3110 C)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -Wall -Wextra")
+set(HEADERS mag3110.h)
+set(SOURCE_FILES mag3110.c ${HEADERS})
+set(SOURCE_CLI_FILES main.c ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCE_CLI_FILES})
+
+add_library(lib${PROJECT_NAME} SHARED ${SOURCE_FILES})
+add_library(lib${PROJECT_NAME}_static STATIC ${SOURCE_FILES})
+
+set_target_properties(lib${PROJECT_NAME}_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+set_target_properties(lib${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+
+
+target_link_libraries(${PROJECT_NAME} lib${PROJECT_NAME}_static)
+
+
+install(TARGETS ${PROJECT_NAME} lib${PROJECT_NAME} lib${PROJECT_NAME}_static
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
+
+install(FILES ${HEADERS} DESTINATION usr/include)
+
+
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME} utilities")
+SET(CPACK_PACKAGE_VENDOR "Baryshnikov Alexander <dev@baryshnikov.net>")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+SET(CPACK_PACKAGE_VERSION_MAJOR "1")
+SET(CPACK_PACKAGE_VERSION_MINOR "0")
+SET(CPACK_PACKAGE_VERSION_PATCH "0")
+include(CPack)
